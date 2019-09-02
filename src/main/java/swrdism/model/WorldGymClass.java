@@ -1,23 +1,19 @@
-package swrdism;
+package swrdism.model;
 
 
 import javax.persistence.*;
 import java.sql.Time;
-import java.util.Date;
-import java.util.Locale;
 
 @Entity
-@Table()
 public class WorldGymClass {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     private String storeName;
-    private int storeId;
     private String city;
     private String day;
     private String category;
-    private String title;
+    private String name;
     private String teacher;
     private Time startTime;
     private Time endTime;
@@ -46,9 +42,6 @@ public class WorldGymClass {
         this.startTime = startTime;
     }
 
-    public void setStoreId(int storeId) {
-        this.storeId = storeId;
-    }
 
     public void setStoreName(String storeName) {
         this.storeName = storeName;
@@ -58,7 +51,7 @@ public class WorldGymClass {
         this.teacher = teacher;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setName(String name) {
+        this.name = name;
     }
 }
