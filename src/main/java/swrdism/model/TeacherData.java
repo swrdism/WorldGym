@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.util.Objects;
 
 @Entity
 public class TeacherData {
@@ -26,5 +27,26 @@ public class TeacherData {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public int hashCode(){
+        return Objects.hash(name);
+    }
+
+    @Override
+    public boolean equals(Object obj){
+        if( obj == null) {
+            return false;
+        }
+
+        if(getClass() != obj.getClass()){
+            return false;
+        }
+        final TeacherData other = (TeacherData) obj;
+        if(!Objects.equals(this.name, other.name)){
+            return false;
+        }
+        return true;
     }
 }

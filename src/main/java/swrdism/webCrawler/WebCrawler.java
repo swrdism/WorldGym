@@ -71,12 +71,7 @@ public class WebCrawler {
         chromeOptions.addArguments("--headless");
         WebDriver driver = new ChromeDriver(chromeOptions);
 
-        int j=0;
         for (StoreData storeData : storeDataSet){
-            j++;
-            if (j==3){
-                break;
-            }
 
             driver.get(url+"#class!id="+storeData.getStoreId());
             driver.navigate().refresh();

@@ -24,8 +24,10 @@ public class WorldGymService {
     }
 
     @Transactional
-    public void updateCategoryData(CategoryData categoryData){
-        categoryDataRepository.save(categoryData);
+    public void updateCategoryData(Set<CategoryData> categoryDataSet) {
+        for (CategoryData categoryData : categoryDataSet) {
+            categoryDataRepository.save(categoryData);
+        }
     }
 
     public void deleteCategoryData() {
@@ -137,6 +139,7 @@ public class WorldGymService {
                 update = false;
             }
         }
+
         if (update){
 
             System.out.println("WebCrawling");
@@ -145,19 +148,21 @@ public class WorldGymService {
             webCrawler.StoreCrawler();
             webCrawler.ClassCrawler();
             System.out.println("WebCrawled");
+
+            deleteUpdateTime();
             updateUpdateTime(webCrawler.getUpdateTime());
 
-            for (CategoryData categoryData: webCrawler.getCategoryDataSet()){
-                System.out.printf("%d %s%n",
-                        categoryData.getId(),categoryData.getName());
-                //updateCategoryData(categoryData);
-            }
-//            updateClassNameData(webCrawler.getClassNameDataSet());
-//            updateStoreData(webCrawler.getStoreDataSet());
-//            updateTeacherData(webCrawler.getTeacherDataSet());
-//            updateWorldGymClass(webCrawler.getWorldGymClasses());
+            deleteCategoryData();
+            deleteClassNameData();
+            deleteStoreData();
+            deleteTeacherData();
+            deleteWorldGymClass();
 
-
+            updateCategoryData(webCrawler.getCategoryDataSet());
+            updateClassNameData(webCrawler.getClassNameDataSet());
+            updateStoreData(webCrawler.getStoreDataSet());
+            updateTeacherData(webCrawler.getTeacherDataSet());
+            updateWorldGymClass(webCrawler.getWorldGymClasses());
         }
     }
 }
