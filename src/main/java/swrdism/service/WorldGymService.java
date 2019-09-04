@@ -93,8 +93,7 @@ public class WorldGymService {
     private UpdateTimeRepository updateTimeRepository;
 
     public UpdateTime getUpdateTime() {
-        return updateTimeRepository.findById(1)
-                .orElseThrow(() -> new NotFoundException("Can't find product."));
+        return updateTimeRepository.findById(1).orElse(null);
     }
 
     @Transactional
@@ -127,8 +126,18 @@ public class WorldGymService {
 
         Date month = new java.sql.Date(new Date().getMonth());
 
-
-        if (getUpdateTime().getDate() != month){
+        boolean update;
+        if (getUpdateTime() == null){
+            update = true;
+        }else{
+            if(getUpdateTime().getDate() != month){
+                update =true;
+            }
+            else {
+                update = false;
+            }
+        }
+        if (update){
 
             System.out.println("WebCrawling");
 
@@ -139,13 +148,14 @@ public class WorldGymService {
             updateUpdateTime(webCrawler.getUpdateTime());
 
             for (CategoryData categoryData: webCrawler.getCategoryDataSet()){
-                System.out.printf("%d %s%n",categoryData.getId(),categoryData.getName());
-                updateCategoryData(categoryData);
+                System.out.printf("%d %s%n",
+                        categoryData.getId(),categoryData.getName());
+                //updateCategoryData(categoryData);
             }
-            //updateClassNameData(webCrawler.getClassNameDataSet());
-            //updateStoreData(webCrawler.getStoreDataSet());
-            //updateTeacherData(webCrawler.getTeacherDataSet());
-            //updateWorldGymClass(webCrawler.getWorldGymClasses());
+//            updateClassNameData(webCrawler.getClassNameDataSet());
+//            updateStoreData(webCrawler.getStoreDataSet());
+//            updateTeacherData(webCrawler.getTeacherDataSet());
+//            updateWorldGymClass(webCrawler.getWorldGymClasses());
 
 
         }
