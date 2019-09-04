@@ -54,4 +54,41 @@ public class WorldGymClass {
     public void setName(String name) {
         this.name = name;
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public String getDay() {
+        return day;
+    }
+
+    public String getStoreName() {
+        return storeName;
+    }
+
+    public String getTeacher() {
+        return teacher;
+    }
+
+    public Time getEndTime() {
+        return endTime;
+    }
+
+    public Time getStartTime() {
+        return startTime;
+    }
+
 }

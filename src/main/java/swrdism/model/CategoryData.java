@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.util.Objects;
 
 @Entity
 public class CategoryData {
@@ -27,4 +28,26 @@ public class CategoryData {
     public void setName(String name) {
         this.name = name;
     }
+
+    @Override
+    public int hashCode(){
+        return Objects.hash(name);
+    }
+
+    @Override
+    public boolean equals(Object obj){
+        if( obj == null) {
+            return false;
+        }
+
+        if(getClass() != obj.getClass()){
+            return false;
+        }
+        final CategoryData other = (CategoryData) obj;
+        if(!Objects.equals(this.name, other.name)){
+            return false;
+        }
+        return true;
+    }
+
 }
