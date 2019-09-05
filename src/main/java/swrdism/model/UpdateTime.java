@@ -11,7 +11,7 @@ import java.sql.Date;
 public class UpdateTime {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private Date date;
 

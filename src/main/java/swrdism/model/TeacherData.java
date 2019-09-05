@@ -9,7 +9,7 @@ import java.util.Objects;
 @Entity
 public class TeacherData {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
 

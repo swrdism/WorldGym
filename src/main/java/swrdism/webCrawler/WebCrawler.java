@@ -16,10 +16,8 @@ import java.util.Date;
 public class WebCrawler {
     private Set<StoreData> storeDataSet = new HashSet<>();
     private List<WorldGymClass> worldGymClasses = new ArrayList<>();
-    private Set<CategoryData> categoryDataSet = new HashSet<>();
-    private Set<ClassNameData> classNameDataSet = new HashSet<>();
+    private Set<ClassData> classDataSet = new HashSet<>();
     private Set<TeacherData> teacherDataSet = new HashSet<>();
-    private UpdateTime updateTime = new UpdateTime();
     private final String url = "http://www.worldgymtaiwan.com/zh-tw/schedule";
 
     public List<WorldGymClass> getWorldGymClasses() {
@@ -28,14 +26,8 @@ public class WebCrawler {
     public Set<StoreData> getStoreDataSet() {
         return storeDataSet;
     }
-    public UpdateTime getUpdateTime() {
-        return updateTime;
-    }
-    public Set<CategoryData> getCategoryDataSet() {
-        return categoryDataSet;
-    }
-    public Set<ClassNameData> getClassNameDataSet() {
-        return classNameDataSet;
+    public Set<ClassData> getClassDataSet() {
+        return classDataSet;
     }
     public Set<TeacherData> getTeacherDataSet() {
         return teacherDataSet;
@@ -109,15 +101,12 @@ public class WebCrawler {
 
                     worldGymClass.setDay(weekday);
 
+                    ClassData classData = new ClassData();
                     worldGymClass.setCategory(data.attr("name"));
-                    CategoryData categoryData = new CategoryData();
-                    categoryData.setName(worldGymClass.getCategory());
-                    categoryDataSet.add(categoryData);
-
+                    classData.setCategory(worldGymClass.getCategory());
                     worldGymClass.setName(data.getElementsByTag("a").attr("title"));
-                    ClassNameData classNameData = new ClassNameData();
-                    classNameData.setName(worldGymClass.getName());
-                    classNameDataSet.add(classNameData);
+                    classData.setName(worldGymClass.getName());
+                    classDataSet.add(classData);
 
                     worldGymClass.setStartTime(startTime);
 
@@ -136,8 +125,7 @@ public class WebCrawler {
                 System.out.println(ex);
             }
         }
-        Date date = new Date();
-        updateTime.setDate(new java.sql.Date(date.getMonth()));
+
     }
 
 }

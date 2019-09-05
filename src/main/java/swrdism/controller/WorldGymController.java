@@ -19,16 +19,12 @@ public class WorldGymController {
         worldGymService.checkUpdate();
     }
 
-    @GetMapping(value = "/getCategoryDataList")
-    public ResponseEntity<List<CategoryData>> getCategoryDataList(){
-        List<CategoryData> categoryDataList = worldGymService.getAllCategoryData();
-        return ResponseEntity.ok(categoryDataList);
-    }
+
 
     @GetMapping(value = "/getClassNameDataList")
-    public ResponseEntity<List<ClassNameData>> getClassNameDataList(){
-        List<ClassNameData> classNameDataList = worldGymService.getAllClassNameData();
-        return ResponseEntity.ok(classNameDataList);
+    public ResponseEntity<List<ClassData>> getClassNameDataList(){
+        List<ClassData> classDataList = worldGymService.getAllClassData();
+        return ResponseEntity.ok(classDataList);
     }
 
     @GetMapping(value = "/getTeacherDataList")

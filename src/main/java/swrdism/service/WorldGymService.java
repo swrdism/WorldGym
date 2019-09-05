@@ -1,7 +1,6 @@
 package swrdism.service;
 
 import org.springframework.stereotype.Service;
-import swrdism.exception.NotFoundException;
 import swrdism.model.*;
 import swrdism.repository.*;
 import swrdism.webCrawler.WebCrawler;
@@ -17,40 +16,21 @@ import java.util.Set;
 public class WorldGymService {
 
     @Resource
-    private CategoryDataRepository categoryDataRepository;
+    private ClassDataRepository classDataRepository;
 
-    public List<CategoryData> getAllCategoryData() {
-        return (List<CategoryData>) categoryDataRepository.findAll();
+    public List<ClassData> getAllClassData() {
+        return (List<ClassData>) classDataRepository.findAll();
     }
 
     @Transactional
-    public void updateCategoryData(Set<CategoryData> categoryDataSet) {
-        for (CategoryData categoryData : categoryDataSet) {
-            categoryDataRepository.save(categoryData);
+    public void updateClassData(Set<ClassData> classDataSet){
+        for (ClassData classData : classDataSet){
+            classDataRepository.save(classData);
         }
     }
 
-    public void deleteCategoryData() {
-        categoryDataRepository.deleteAll();
-    }
-
-
-    @Resource
-    private ClassNameDataRepository classNameDataRepository;
-
-    public List<ClassNameData> getAllClassNameData() {
-        return (List<ClassNameData>) classNameDataRepository.findAll();
-    }
-
-    @Transactional
-    public void updateClassNameData(Set<ClassNameData> classNameDataSet){
-        for (ClassNameData classNameData : classNameDataSet){
-            classNameDataRepository.save(classNameData);
-        }
-    }
-
-    public void deleteClassNameData() {
-        classNameDataRepository.deleteAll();
+    public void deleteClassData() {
+        classDataRepository.deleteAll();
     }
 
 
@@ -124,23 +104,26 @@ public class WorldGymService {
     }
 
 
-    public void checkUpdate(){
+    public void checkUpdate() {
 
-        Date month = new java.sql.Date(new Date().getMonth());
+        UpdateTime now = new UpdateTime();
+        now.setDate(new java.sql.Date(new Date().getTime()));
+
+        System.out.printf("%d%n",now.getDate().getMonth());
 
         boolean update;
-        if (getUpdateTime() == null){
+        if (getUpdateTime() == null) {
             update = true;
-        }else{
-            if(getUpdateTime().getDate() != month){
-                update =true;
-            }
-            else {
+            System.out.printf("null%n");
+        } else {
+            if (getUpdateTime().getDate().getMonth() != now.getDate().getMonth()) {
+                update = true;
+            } else {
                 update = false;
             }
         }
 
-        if (update){
+        if (update) {
 
             System.out.println("WebCrawling");
 
@@ -150,19 +133,17 @@ public class WorldGymService {
             System.out.println("WebCrawled");
 
             deleteUpdateTime();
-            updateUpdateTime(webCrawler.getUpdateTime());
-
-            deleteCategoryData();
-            deleteClassNameData();
+            deleteClassData();
             deleteStoreData();
             deleteTeacherData();
             deleteWorldGymClass();
 
-            updateCategoryData(webCrawler.getCategoryDataSet());
-            updateClassNameData(webCrawler.getClassNameDataSet());
+            updateUpdateTime(now);
+            updateClassData(webCrawler.getClassDataSet());
             updateStoreData(webCrawler.getStoreDataSet());
             updateTeacherData(webCrawler.getTeacherDataSet());
             updateWorldGymClass(webCrawler.getWorldGymClasses());
-        }
+            }
     }
 }
+
