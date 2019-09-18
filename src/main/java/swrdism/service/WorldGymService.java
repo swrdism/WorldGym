@@ -29,8 +29,8 @@ public class WorldGymService {
         }
     }
 
-    public void deleteClassData() {
-        classDataRepository.deleteAll();
+    public void truncateClassData() {
+        classDataRepository.truncate();
     }
 
 
@@ -48,8 +48,8 @@ public class WorldGymService {
         }
     }
 
-    public void deleteStoreData() {
-        storeDataRepository.deleteAll();
+    public void truncateStoreData() {
+        storeDataRepository.truncate();
     }
 
 
@@ -67,8 +67,8 @@ public class WorldGymService {
         }
     }
 
-    public void deleteTeacherData() {
-        teacherDataRepository.deleteAll();
+    public void truncateTeacherData() {
+        teacherDataRepository.truncate();
     }
 
     @Resource
@@ -82,8 +82,9 @@ public class WorldGymService {
     public void updateUpdateTime(UpdateTime updateTime){
         updateTimeRepository.save(updateTime);
     }
-    public void deleteUpdateTime() {
-        updateTimeRepository.deleteAll();
+
+    public void truncateUpdateTime() {
+        updateTimeRepository.truncate();
     }
 
     @Resource
@@ -99,51 +100,62 @@ public class WorldGymService {
             worldGymClassRepository.save(worldGymClass);
         }
     }
-    public void deleteWorldGymClass() {
-        worldGymClassRepository.deleteAll();
+    public void truncateWorldGymClass() {
+        worldGymClassRepository.truncate();
     }
 
 
-    public void checkUpdate() {
+    public boolean isUpdating() {
 
         UpdateTime now = new UpdateTime();
         now.setDate(new java.sql.Date(new Date().getTime()));
 
-        System.out.printf("%d%n",now.getDate().getMonth());
+        System.out.printf("%d%n", now.getDate().getMonth());
 
-        boolean update;
+        boolean isUpdated;
+
         if (getUpdateTime() == null) {
-            update = true;
+            isUpdated = true;
             System.out.printf("null%n");
         } else {
             if (getUpdateTime().getDate().getMonth() != now.getDate().getMonth()) {
-                update = true;
+                isUpdated = true;
             } else {
-                update = false;
+                isUpdated = false;
             }
         }
 
-        if (update) {
-
-            System.out.println("WebCrawling");
-
-            WebCrawler webCrawler = new WebCrawler();
-            webCrawler.StoreCrawler();
-            webCrawler.ClassCrawler();
-            System.out.println("WebCrawled");
-
-            deleteUpdateTime();
-            deleteClassData();
-            deleteStoreData();
-            deleteTeacherData();
-            deleteWorldGymClass();
-
-            updateUpdateTime(now);
-            updateClassData(webCrawler.getClassDataSet());
-            updateStoreData(webCrawler.getStoreDataSet());
-            updateTeacherData(webCrawler.getTeacherDataSet());
-            updateWorldGymClass(webCrawler.getWorldGymClasses());
-            }
+        return isUpdated;
     }
+
+
+    public boolean isUpdated(){
+
+        UpdateTime now = new UpdateTime();
+        now.setDate(new java.sql.Date(new Date().getTime()));
+
+        System.out.println("WebCrawling");
+
+        WebCrawler webCrawler = new WebCrawler();
+        webCrawler.StoreCrawler();
+        webCrawler.ClassCrawler();
+        System.out.println("WebCrawled");
+
+
+        truncateUpdateTime();
+        truncateClassData();
+        truncateStoreData();
+        truncateTeacherData();
+        truncateWorldGymClass();
+
+        updateUpdateTime(now);
+        updateClassData(webCrawler.getClassDataSet());
+        updateStoreData(webCrawler.getStoreDataSet());
+        updateTeacherData(webCrawler.getTeacherDataSet());
+        updateWorldGymClass(webCrawler.getWorldGymClasses());
+
+        return true;
+    }
+
 }
 

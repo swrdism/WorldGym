@@ -14,9 +14,14 @@ public class WorldGymController {
     @Autowired
     private WorldGymService worldGymService;
 
-    @GetMapping(value ="/checkUpdate")
-    public void checkUpdate(){
-        worldGymService.checkUpdate();
+    @GetMapping(value ="/getIsUpdating")
+    public boolean getIsUpdating(){
+        return worldGymService.isUpdating();
+    }
+
+    @GetMapping(value ="/getIsUpdated")
+    public boolean getIsUpdated(){
+        return worldGymService.isUpdated();
     }
 
 

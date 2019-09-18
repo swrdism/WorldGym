@@ -7,7 +7,7 @@ import java.sql.Time;
 @Entity
 public class WorldGymClass {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String storeName;
     private String city;

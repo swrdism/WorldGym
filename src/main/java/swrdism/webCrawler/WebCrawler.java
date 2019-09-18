@@ -35,14 +35,13 @@ public class WebCrawler {
 
     public void StoreCrawler() {
 
-
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--headless");
         WebDriver driver = new ChromeDriver(chromeOptions);
-
         driver.get(url);
 
         Document document = Jsoup.parse(driver.getPageSource());
+
         Elements stores = document.getElementById("store").getElementsByTag("li");
 
         for (Element s : stores) {
@@ -53,7 +52,6 @@ public class WebCrawler {
             storeDataSet.add(storeData);
         }
 
-
         driver.quit();
     }
 
@@ -62,9 +60,13 @@ public class WebCrawler {
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--headless");
         WebDriver driver = new ChromeDriver(chromeOptions);
-
+        int  z =0;
         for (StoreData storeData : storeDataSet){
-
+            z++;
+            System.out.println(z);
+            if (z==4){
+                break;
+            }
             driver.get(url+"#class!id="+storeData.getStoreId());
             driver.navigate().refresh();
 
@@ -125,7 +127,7 @@ public class WebCrawler {
                 System.out.println(ex);
             }
         }
-
+        driver.quit();
     }
 
 }
