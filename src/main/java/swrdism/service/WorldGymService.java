@@ -105,7 +105,7 @@ public class WorldGymService {
     }
 
 
-    public boolean isUpdating() {
+    public boolean isUpdated() {
 
         UpdateTime now = new UpdateTime();
         now.setDate(new java.sql.Date(new Date().getTime()));
@@ -115,45 +115,38 @@ public class WorldGymService {
         boolean isUpdated;
 
         if (getUpdateTime() == null) {
-            isUpdated = true;
+            isUpdated = false;
             System.out.printf("null%n");
         } else {
             if (getUpdateTime().getDate().getMonth() != now.getDate().getMonth()) {
-                isUpdated = true;
-            } else {
                 isUpdated = false;
+            } else {
+                isUpdated = true;
             }
         }
 
-        return isUpdated;
-    }
+        if (!isUpdated) {
 
+            System.out.println("WebCrawling");
 
-    public boolean isUpdated(){
+            WebCrawler webCrawler = new WebCrawler();
+            webCrawler.StoreCrawler();
+            webCrawler.ClassCrawler();
 
-        UpdateTime now = new UpdateTime();
-        now.setDate(new java.sql.Date(new Date().getTime()));
+            System.out.println("WebCrawled");
 
-        System.out.println("WebCrawling");
+            truncateUpdateTime();
+            truncateClassData();
+            truncateStoreData();
+            truncateTeacherData();
+            truncateWorldGymClass();
 
-        WebCrawler webCrawler = new WebCrawler();
-        webCrawler.StoreCrawler();
-        webCrawler.ClassCrawler();
-        System.out.println("WebCrawled");
-
-
-        truncateUpdateTime();
-        truncateClassData();
-        truncateStoreData();
-        truncateTeacherData();
-        truncateWorldGymClass();
-
-        updateUpdateTime(now);
-        updateClassData(webCrawler.getClassDataSet());
-        updateStoreData(webCrawler.getStoreDataSet());
-        updateTeacherData(webCrawler.getTeacherDataSet());
-        updateWorldGymClass(webCrawler.getWorldGymClasses());
-
+            updateUpdateTime(now);
+            updateClassData(webCrawler.getClassDataSet());
+            updateStoreData(webCrawler.getStoreDataSet());
+            updateTeacherData(webCrawler.getTeacherDataSet());
+            updateWorldGymClass(webCrawler.getWorldGymClasses());
+        }
         return true;
     }
 

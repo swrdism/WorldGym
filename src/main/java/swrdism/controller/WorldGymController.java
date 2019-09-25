@@ -14,17 +14,10 @@ public class WorldGymController {
     @Autowired
     private WorldGymService worldGymService;
 
-    @GetMapping(value ="/getIsUpdating")
-    public boolean getIsUpdating(){
-        return worldGymService.isUpdating();
-    }
-
     @GetMapping(value ="/getIsUpdated")
     public boolean getIsUpdated(){
         return worldGymService.isUpdated();
     }
-
-
 
     @GetMapping(value = "/getClassNameDataList")
     public ResponseEntity<List<ClassData>> getClassNameDataList(){
