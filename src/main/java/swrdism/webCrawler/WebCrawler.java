@@ -10,8 +10,6 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import swrdism.model.*;
 import java.sql.*;
 import java.util.*;
-import java.util.Date;
-
 
 public class WebCrawler {
     private Set<StoreData> storeDataSet = new HashSet<>();
@@ -65,7 +63,7 @@ public class WebCrawler {
             z++;
             System.out.println(z);
             if (z==4){
-                break;
+//                break;
             }
             driver.get(url+"#class!id="+storeData.getStoreId());
             driver.navigate().refresh();
@@ -99,9 +97,13 @@ public class WebCrawler {
 
                     worldGymClass.setStoreName(storeData.getName());
 
+                    worldGymClass.setStoreId(storeData.getStoreId());
+
                     worldGymClass.setCity(storeData.getCity());
 
                     worldGymClass.setDay(weekday);
+
+
 
                     ClassData classData = new ClassData();
                     worldGymClass.setCategory(data.attr("name"));

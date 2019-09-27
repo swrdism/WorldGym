@@ -110,13 +110,11 @@ public class WorldGymService {
         UpdateTime now = new UpdateTime();
         now.setDate(new java.sql.Date(new Date().getTime()));
 
-        System.out.printf("%d%n", now.getDate().getMonth());
-
         boolean isUpdated;
 
         if (getUpdateTime() == null) {
             isUpdated = false;
-            System.out.printf("null%n");
+
         } else {
             if (getUpdateTime().getDate().getMonth() != now.getDate().getMonth()) {
                 isUpdated = false;

@@ -10,6 +10,7 @@ public class WorldGymClass {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String storeName;
+    private String storeId;
     private String city;
     private String day;
     private String category;
@@ -55,6 +56,10 @@ public class WorldGymClass {
         this.name = name;
     }
 
+    public void setStoreId(String storeId) {
+        this.storeId = storeId;
+    }
+
     public String getName() {
         return name;
     }
@@ -91,4 +96,7 @@ public class WorldGymClass {
         return startTime;
     }
 
+    public String getStoreId() {
+        return storeId;
+    }
 }

@@ -37,6 +37,12 @@ public class WorldGymController {
         return ResponseEntity.ok(storeDataList);
     }
 
+    @GetMapping(value = "/getWorldGymClassList")
+    public ResponseEntity<List<WorldGymClass>> getWorldGymClassList(){
+        List<WorldGymClass> worldGymClassList = worldGymService.getAllWorldGymClass();
+        return ResponseEntity.ok(worldGymClassList);
+    }
+
 //    @PostMapping(value = "/postResult")
 //    public ResponseEntity<WorldGymClass> createClassmates(@RequestBody Classmate request) throws Exception {
 //        try {
